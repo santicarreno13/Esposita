@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#120C1C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,100;1,9..144,300..600,100&family=Karla:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,100;1,9..144,300..600,100&family=Karla:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -24,6 +24,13 @@
     --lirio:#C19AF3;
     --lirio2:#8F63CC;
     --oro:#E9CB8E;
+    /* certificado */
+    --papel:#F7F2E9;
+    --papel2:#EFE7D8;
+    --dorado:#C9A75A;
+    --dorado2:#A8893F;
+    --tintaC:#2C3E35;
+    --tintaC2:#6B7A72;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;background:var(--noche)}
@@ -92,6 +99,8 @@
   .sep::before,.sep::after{content:"";flex:1;height:1px;background:var(--borde)}
   .sep h2{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--tenue2);font-weight:400;margin:0;white-space:nowrap}
+  .nota{text-align:center;color:var(--tenue2);font-size:13.5px;margin:-6px 0 16px;
+    font-family:"Fraunces",Georgia,serif;font-style:italic}
 
   /* ---------- cartas ---------- */
   .cartas{display:flex;flex-direction:column;gap:12px}
@@ -143,6 +152,34 @@
   .candado{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--tenue2);white-space:nowrap}
 
+  /* ---------- juego ---------- */
+  .juego{border:1px solid var(--borde);border-radius:18px;background:var(--carta);
+    padding:30px 20px 28px;text-align:center;position:relative;overflow:hidden}
+  .juego .preg{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:300;
+    font-size:clamp(30px,8vw,40px);line-height:1.1;margin:0;color:var(--texto)}
+  .juego .sub2{color:var(--tenue);font-size:14px;margin:10px 0 0}
+  .botones{display:flex;justify-content:center;align-items:center;gap:16px;margin:26px 0 0;
+    min-height:64px;flex-wrap:wrap}
+  .btn{font:inherit;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;
+    font-weight:600;letter-spacing:.02em;font-size:17px;transition:transform .25s ease,
+    opacity .25s, background .25s}
+  .btn:focus-visible{outline:2px solid var(--lirio);outline-offset:3px}
+  .si{background:var(--lirio);color:#1C1230;transform-origin:center}
+  .no{background:transparent;color:var(--tenue);border:1px solid var(--borde2)}
+  .no.ido{opacity:0;pointer-events:none;transform:scale(.4)}
+  .resultado{display:none;margin:22px 0 0}
+  .resultado.ver{display:block;animation:sube .5s ease both}
+  .resultado b{display:block;font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-weight:300;font-size:30px;color:var(--oro);line-height:1.2}
+  .resultado span{display:block;color:var(--tenue);font-size:15px;margin-top:8px}
+  .petalo{position:absolute;top:-20px;width:10px;height:14px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+    background:var(--lirio);opacity:.85;pointer-events:none;
+    animation:cae linear forwards}
+  @keyframes cae{
+    0%{transform:translateY(0) rotate(0deg);opacity:.9}
+    100%{transform:translateY(420px) rotate(540deg);opacity:0}
+  }
+
   /* ---------- canciones ---------- */
   .cancion{display:flex;align-items:center;gap:14px;padding:14px 16px;
     border:1px solid var(--borde);border-radius:16px;background:var(--carta);
@@ -157,7 +194,18 @@
     font-size:18px;line-height:1.25}
   .cancion span{display:block;font-size:13px;color:var(--tenue);margin-top:2px}
   .cancion .ir{margin-left:auto;color:var(--tenue2);font-family:"Space Mono",monospace;
-    font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+  .pista{border:1px solid var(--borde);border-radius:16px;background:var(--carta);
+    margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+  .pista.sonando{border-color:var(--borde2)}
+  .pista .cancion{border:0;border-radius:0;margin:0;width:100%;background:none;
+    font:inherit;cursor:pointer;text-align:left}
+  .pista .cancion:focus-visible{outline:2px solid var(--lirio);outline-offset:-3px}
+  .pista.sonando .disco{animation:gira 3s linear infinite}
+  @keyframes gira{to{transform:rotate(360deg)}}
+  .player{display:none;position:relative;aspect-ratio:16/9;background:#000}
+  .pista.sonando .player{display:block}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
   /* ---------- relojes ---------- */
   .ahora{border:1px solid var(--borde);border-radius:16px;background:var(--carta);
@@ -171,6 +219,50 @@
     font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:13.5px;text-align:center;
     line-height:1.3;width:11ch}
 
+  /* ---------- certificado ---------- */
+  .cert{background:var(--papel);color:var(--tintaC);border-radius:6px;padding:14px;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(201,167,90,.25);
+    font-family:"Cormorant Garamond","Fraunces",Georgia,serif;position:relative;
+    transform:rotate(-.6deg)}
+  .cert .marco{border:1.5px solid var(--dorado);border-radius:4px;padding:30px 22px 26px;
+    position:relative;background:
+      radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.6), transparent 60%), var(--papel)}
+  .cert .marco::before{content:"";position:absolute;inset:5px;border:.8px solid rgba(201,167,90,.55);
+    border-radius:3px;pointer-events:none}
+  .cert .ojo{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--dorado2);text-align:center;margin:0 0 18px}
+  .cert h3{font-weight:500;font-size:clamp(28px,7.6vw,38px);line-height:1.08;margin:0;
+    text-align:center;letter-spacing:-.01em;text-wrap:balance}
+  .cert .se{text-align:center;font-size:19px;margin:20px 0 6px;color:var(--tintaC2)}
+  .cert .nombres{text-align:center;font-size:clamp(34px,9vw,46px);font-weight:500;
+    line-height:1.1;margin:0;letter-spacing:-.01em}
+  .cert .cuerpoC{text-align:center;font-size:19.5px;line-height:1.5;margin:18px auto 0;
+    max-width:34ch}
+  .sello2{width:118px;height:118px;border-radius:50%;margin:24px auto 0;position:relative;
+    background:radial-gradient(circle at 35% 30%, #DCC07A, var(--dorado) 55%, var(--dorado2));
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    color:#5C4712;box-shadow:inset 0 0 0 4px rgba(255,255,255,.25), 0 6px 18px -8px rgba(0,0,0,.45);
+    transform:rotate(-8deg)}
+  .sello2::after{content:"";position:absolute;inset:7px;border-radius:50%;
+    border:1px dashed rgba(92,71,18,.5)}
+  .sello2 i{font-style:italic;font-size:15px;line-height:1}
+  .sello2 b{font-weight:500;font-size:24px;line-height:1.1;letter-spacing:.04em}
+  .firmas{display:flex;gap:26px;margin:30px 0 0}
+  .firma{flex:1;text-align:center}
+  .firma i{display:block;font-style:italic;font-size:30px;line-height:1;padding-bottom:8px;
+    border-bottom:1.5px solid var(--tintaC)}
+  .firma span{display:block;font-family:"Space Mono",monospace;font-size:10px;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--tintaC2);margin-top:10px}
+  .cert .pieC{text-align:center;font-style:italic;font-size:15.5px;color:var(--tintaC2);
+    margin:26px 0 0;line-height:1.5}
+  .cert .renovar{display:block;margin:18px auto 0;font:inherit;font-family:"Karla",sans-serif;
+    font-weight:600;font-size:13.5px;letter-spacing:.04em;padding:10px 20px;border-radius:999px;
+    border:1.5px solid var(--dorado);background:transparent;color:var(--dorado2);cursor:pointer}
+  .cert .renovar:focus-visible{outline:2px solid var(--dorado2);outline-offset:3px}
+  .cert .aviso{display:none;text-align:center;font-size:16px;margin:14px 0 0;color:var(--tintaC)}
+  .cert .aviso.ver{display:block;animation:sube .45s ease both}
+  .cert .aviso b{font-weight:500}
+
   /* ---------- cierre ---------- */
   .cierre{margin-top:56px;text-align:center}
   .cierre .lirio{width:30px;height:30px;opacity:.7;margin-bottom:16px}
@@ -179,6 +271,7 @@
 
   @media (prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
+    .cert{transform:none}
   }
 </style>
 </head>
@@ -200,12 +293,9 @@
         <path d="M50 50 C 41 36, 40 16, 50 4 C 60 16, 59 36, 50 50 Z" transform="rotate(300 50 50)"/>
       </g>
       <g stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-        <line x1="50" y1="50" x2="50" y2="34"/>
-        <line x1="50" y1="50" x2="63" y2="42"/>
-        <line x1="50" y1="50" x2="37" y2="42"/>
-        <line x1="50" y1="50" x2="63" y2="58"/>
-        <line x1="50" y1="50" x2="37" y2="58"/>
-        <line x1="50" y1="50" x2="50" y2="66"/>
+        <line x1="50" y1="50" x2="50" y2="34"/><line x1="50" y1="50" x2="63" y2="42"/>
+        <line x1="50" y1="50" x2="37" y2="42"/><line x1="50" y1="50" x2="63" y2="58"/>
+        <line x1="50" y1="50" x2="37" y2="58"/><line x1="50" y1="50" x2="50" y2="66"/>
       </g>
       <g fill="currentColor">
         <circle cx="50" cy="33" r="1.7"/><circle cx="64" cy="41" r="1.7"/><circle cx="36" cy="41" r="1.7"/>
@@ -237,7 +327,19 @@
   </header>
 
   <div class="sep"><h2>Ábreme cuando…</h2></div>
+  <p class="nota">Una a la vez. No hay afán, hay sesenta y nueve días.</p>
   <div class="cartas" id="cartas"></div>
+
+  <div class="sep"><h2>Una pregunta</h2></div>
+  <section class="juego" id="juego">
+    <p class="preg" id="preg"></p>
+    <p class="sub2" id="pregSub"></p>
+    <div class="botones">
+      <button class="btn si" id="bSi" type="button">Sí</button>
+      <button class="btn no" id="bNo" type="button">No</button>
+    </div>
+    <div class="resultado" id="res"><b id="resT"></b><span id="resS"></span></div>
+  </section>
 
   <div class="sep"><h2>Nuestras canciones</h2></div>
   <div id="canciones"></div>
@@ -248,6 +350,25 @@
     <div class="medio">una hora<br>de diferencia</div>
     <div class="lado"><b id="rBG">--:--</b><span>Bogotá</span></div>
   </div>
+
+  <div class="sep"><h2>Y por si se te olvida</h2></div>
+  <section class="cert" id="cert" aria-label="Certificado">
+    <div class="marco">
+      <p class="ojo" id="cOjo"></p>
+      <h3 id="cTitulo"></h3>
+      <p class="se" id="cSe"></p>
+      <p class="nombres" id="cNombres"></p>
+      <p class="cuerpoC" id="cCuerpo"></p>
+      <div class="sello2"><i>nivel</i><b id="cNivel"></b></div>
+      <div class="firmas">
+        <div class="firma"><i id="cF1"></i><span id="cR1"></span></div>
+        <div class="firma"><i id="cF2"></i><span id="cR2"></span></div>
+      </div>
+      <p class="pieC" id="cPie"></p>
+      <button class="renovar" id="bRenovar" type="button"></button>
+      <p class="aviso" id="cAviso"></p>
+    </div>
+  </section>
 
   <footer class="cierre">
     <svg class="lirio" viewBox="0 0 100 100" aria-hidden="true">
@@ -270,78 +391,101 @@
    AQUÍ SE EDITA TODO. No tienes que tocar nada más abajo.
    ========================================================================== */
 
-/* 1) La fecha y hora exacta en que ella aterriza (hora de Colombia, -05:00).
-      Cambia esto cuando sepas la hora real del vuelo.                        */
+/* 1) La fecha y hora exacta en que ella aterriza (hora de Colombia, -05:00). */
 const LLEGADA = "2026-12-20T00:00:00-05:00";
 
-/* 2) El día en que le mandaste la página. Sirve para que el anillo del
-      contador se vaya llenando de aquí al 20 de diciembre.                   */
+/* 2) El día en que le mandaste la página (para que el anillo se vaya llenando). */
 const INICIO = "2026-10-12T00:00:00-05:00";
 
-/* 3) Lo que dice debajo del título, según la hora que sea en Santa Cruz.
-      Cambia los textos como quieras.                                         */
+/* 3) Lo que dice debajo del título, según la hora que sea en Santa Cruz. */
 const SALUDOS = {
-  madrugada: "Es tarde allá. Si no puedes dormir, abre la segunda carta.",   // 00:00 – 05:59
-  manana:    "Buenos días. Hoy falta un día menos que ayer.",                // 06:00 – 11:59
-  mediodia:  "Antes de que entres a trabajar: te pienso.",                   // 12:00 – 13:59
-  tarde:     "Sé que estás en el turno. Esto te espera cuando salgas.",      // 14:00 – 21:59
-  noche:     "Ya saliste. Descansa, que yo sigo aquí."                       // 22:00 – 23:59
+  madrugada: "Es tarde allá. Si no puedes dormir, hay una carta para eso.",     // 00:00 – 05:59
+  manana:    "Buenos días. Hoy falta un día menos que ayer.",                   // 06:00 – 11:59
+  mediodia:  "Antes de que entres a trabajar: te pienso.",                      // 12:00 – 13:59
+  tarde:     "Sé que estás en el turno. Esto te espera cuando salgas.",         // 14:00 – 21:59
+  noche:     "Ya saliste. Descansa, que yo sigo aquí."                          // 22:00 – 23:59
 };
 
-/* 4) Las cartas.
-      "fecha": null  -> abierta desde ya.
-      "fecha": "2026-10-25" -> con candado hasta ese día.
-      Una carta con el texto vacío no aparece en la página.                   */
+/* 4) Las cartas. Cada una es un sobre aparte y se abre sola.
+      "fecha": null -> abierta desde ya.  "fecha": "2026-11-20" -> con candado hasta ese día.
+      Una carta con el texto vacío no aparece.                                                */
 const CARTAS = [
 
-  {
-    cuando: "Cuando me extrañes",
-    fecha: null,
-    texto: [
-      "No importa cuán lejos esté, no importa si pasan terremotos, diluvios o cualquier suceso que me haga estar más lejos de ti. Recuerda que siempre estaré en tu corazón, en tus pensamientos y en tus oraciones.",
-      "Te amo. Quisiera que todo el mundo lo supiera: que eres mía y de nadie más, que te extraño, te pienso, te anhelo, te deseo, te quiero, te adoro, y que quiero que estés aquí conmigo.",
-      "No se necesitan muchas cosas materiales para demostrarte que te amo. Cada acto que hago, cada pensamiento, cada detalle, cada día lluvioso, cada pareja que veo, cada cosa morada que veo, cada noche, cada nueve de la noche que te espero, me hacen pensar en ti. En conclusión: te extraño y te pienso todo el tiempo."
-    ]
-  },
+  { cuando: "Cuando sientas que estoy lejos", fecha: null, texto: [
+    "No importa cuán lejos esté, no importa si pasan terremotos, diluvios o cualquier suceso que me haga estar más lejos de ti. Recuerda que siempre estaré en tu corazón, en tus pensamientos y en tus oraciones."
+  ]},
 
-  {
-    cuando: "Cuando no puedas dormir",
-    fecha: null,
-    texto: [
-      "Recuerda mi voz. Recuerda mis te amo, mis oraciones, mis historias, mis chismes, incluso nuestras discusiones. Todo. Y más que todo, recuerda mis audios. Si necesitas más, me dices jejeje.",
-      "En estos momentos ten presente que, así como Dios está contigo, yo lo estoy igual. Te dejo un versículo hermoso como tú:"
-    ],
+  { cuando: "Cuando me extrañes", fecha: null, texto: [
+    "Te amo. Quisiera que todo el mundo lo supiera: que eres mía y de nadie más, que te extraño, te pienso, te anhelo, te deseo, te quiero, te adoro, y que quiero que estés aquí conmigo."
+  ]},
+
+  { cuando: "Cuando veas algo morado", fecha: null, texto: [
+    "No se necesitan muchas cosas materiales para demostrarte que te amo. Cada acto que hago, cada pensamiento, cada detalle, cada día lluvioso, cada pareja que veo, cada cosa morada que veo, cada noche, cada nueve de la noche que te espero, me hacen pensar en ti. En conclusión: te extraño y te pienso todo el tiempo."
+  ]},
+
+  { cuando: "Cuando no puedas dormir", fecha: null, texto: [
+    "Recuerda mi voz. Recuerda mis te amo, mis oraciones, mis historias, mis chismes, incluso nuestras discusiones. Todo. Y más que todo, recuerda mis audios. Si necesitas más, me dices jejeje."
+  ]},
+
+  { cuando: "Cuando necesites paz", fecha: null, texto: [
+    "En estos momentos ten presente que, así como Dios está contigo, yo lo estoy igual. Te dejo un versículo hermoso como tú:"
+  ],
     versiculo: "En paz me acostaré, y asimismo dormiré; porque solo tú, Jehová, me haces vivir confiado.",
     cita: "Salmos 4:8"
   },
 
-  {
-    cuando: "Cuando tengas un día horrible",
-    fecha: null,
-    texto: [
-      "En estos momentos solo queda descansar en Dios y en mi pecho, mientras te abrazo y te acaricio. No tienes que hablar ni decir nada, solo sentir tranquilidad. Pero mientras no estamos juntitos, descansa en Dios y confía en Él como yo confío en ti.",
-      "Y mientras estés sola, dímelo y te resuelvo: te doy de comer, te doy el mundo, te doy lo que soy, lo que nunca fui y lo que seré para ti. Simplemente seré todo tuyo."
-    ]
-  },
+  { cuando: "Cuando tengas un día horrible", fecha: null, texto: [
+    "En estos momentos solo queda descansar en Dios y en mi pecho, mientras te abrazo y te acaricio. No tienes que hablar ni decir nada, solo sentir tranquilidad. Pero mientras no estamos juntitos, descansa en Dios y confía en Él como yo confío en ti."
+  ]},
 
-  /* ---- EJEMPLO DE CARTA CON CANDADO ----
-     Escribe el texto y se abrirá sola ese día.
-     Si la dejas vacía, no aparece en la página.                              */
-  {
-    cuando: "Cuando falte un mes",
-    fecha: "2026-11-20",
-    texto: [
-      ""
-    ]
-  }
+  { cuando: "Cuando te sientas sola", fecha: null, texto: [
+    "Mientras estés sola, dímelo y te resuelvo: te doy de comer, te doy el mundo, te doy lo que soy, lo que nunca fui y lo que seré para ti. Simplemente seré todo tuyo."
+  ]},
+
+  /* Ejemplo con candado. Si la dejas vacía no aparece. */
+  { cuando: "Cuando falte un mes", fecha: "2026-11-20", texto: [ "" ] }
 
 ];
 
-/* 5) Las canciones. Pega el link de YouTube o Spotify entre las comillas.
-      Si dejas el link vacío, igual aparece el nombre, sin ser tocable.       */
+/* 5) El juego de la pregunta.
+      Cada vez que toque "No", el botón dice lo siguiente de la lista y el "Sí" crece.
+      Cuando se acaba la lista, el "No" desaparece.                                           */
+const PREGUNTA     = "¿Te gusto?";
+const PREGUNTA_SUB = "Responde con sinceridad.";
+const RESPUESTAS_NO = [
+  "¿Segura?",
+  "Piénsalo bien",
+  "Mmm…",
+  "Jessi.",
+  "Mi pollito…",
+  "Mi amo…",
+  "Te doy chocolate",
+  "Ya puej",
+  "Este botón está dañado"
+];
+const RESPUESTA_SI   = "Lo sabía.";
+const RESPUESTA_SI_2 = "Yo también. Desde hace rato.";
+
+/* 6) El certificado. Está escrito tal cual el de ustedes; cámbialo si quieres. */
+const CERTIFICADO = {
+  ojo:     "Documento oficial-ish",
+  titulo:  "Certificado de Unión Simbólica",
+  se:      "Se certifica que",
+  nombres: "Santi & Jessi",
+  cuerpo:  "quedan unidos en el nivel IA, con Dios como testigo y este certificado como prueba, el día 7 de julio de 2026.",
+  nivel:   "IA",
+  firma1:  "Santi",   rol1: "Él",
+  firma2:  "Jessi",   rol2: "Ella",
+  pie:     "Renovación en persona: 20 de diciembre de 2026 · Este documento no tiene validez legal, pero sí sentimental.",
+  botonRenovar: "Renovar certificado",
+  avisoRenovar: "La renovación es presencial. Disponible el 20 de diciembre, en persona."
+};
+
+/* 7) Las canciones. Al tocarlas se reproducen ahí mismo.
+      "youtube" es el código que va después de "v=" en el link de YouTube.                   */
 const CANCIONES = [
-  { titulo: "Risk It All",          artista: "Bruno Mars", link: "" },
-  { titulo: "Nothing Else Matters", artista: "Metallica",  link: "" }
+  { titulo: "Risk It All",          artista: "Bruno Mars", youtube: "lY5V4hSLWY8" },
+  { titulo: "Nothing Else Matters", artista: "Metallica",  youtube: "tAGnKpE4NCI" }
 ];
 
 /* ==========================================================================
@@ -470,7 +614,6 @@ const CANCIONES = [
       ? "es hoy, en unas horas"
       : dias === 1 ? "mañana nos vemos"
       : 'faltan <em>' + dias + ' días</em> para tenerte aquí';
-
     var av = $("avance");
     if (av){
       var p = (ahora - inicio) / (destino - inicio);
@@ -502,7 +645,7 @@ const CANCIONES = [
   relojes();
   setInterval(relojes, 15000);
 
-  /* ---------- cartas ---------- */
+  /* ---------- cartas (una abierta a la vez) ---------- */
   var SOBRE =
     '<svg class="sobre" viewBox="0 0 46 36" aria-hidden="true">' +
       '<rect class="cuerpoS" x="1" y="9" width="44" height="26" rx="4"/>' +
@@ -516,35 +659,23 @@ const CANCIONES = [
       '<rect class="sello" x="18" y="17" width="10" height="8" rx="1.5"/>' +
       '<path d="M20 17 v-2.5 a3 3 0 0 1 6 0 V17" fill="none" stroke="var(--tenue2)" stroke-width="1.3"/>' +
     '</svg>';
-
   var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
                "agosto","septiembre","octubre","noviembre","diciembre"];
-
   function tieneTexto(c){
     if (!c.texto) return false;
-    for (var i=0;i<c.texto.length;i++){
-      if (String(c.texto[i]).trim() !== "") return true;
-    }
+    for (var i=0;i<c.texto.length;i++){ if (String(c.texto[i]).trim() !== "") return true; }
     return false;
   }
-
-  var cont = $("cartas");
-  var html = "";
-  var n = 0;
-
+  var cont = $("cartas"), html = "", n = 0;
   for (var i = 0; i < CARTAS.length; i++){
     var c = CARTAS[i];
     if (!tieneTexto(c)) continue;
-
     var abierta = true, etiqueta = "";
     if (c.fecha){
       var f = new Date(c.fecha + "T00:00:00");
       abierta = Date.now() >= f.getTime();
-      if (!abierta){
-        etiqueta = '<span class="candado">' + f.getDate() + " " + MESES[f.getMonth()] + "</span>";
-      }
+      if (!abierta) etiqueta = '<span class="candado">' + f.getDate() + " " + MESES[f.getMonth()] + "</span>";
     }
-
     var dentro = "";
     for (var j = 0; j < c.texto.length; j++){
       if (String(c.texto[j]).trim() === "") continue;
@@ -554,44 +685,144 @@ const CANCIONES = [
       dentro += '<div class="versiculo"><q>' + esc(c.versiculo) + "</q>" +
                 (c.cita ? "<cite>" + esc(c.cita) + "</cite>" : "") + "</div>";
     }
-
     var id = "c" + (n++);
     html += '<article class="carta' + (abierta ? "" : " cerrada") + '">' +
       '<button class="tapa" type="button"' +
         (abierta ? ' aria-expanded="false" aria-controls="' + id + '"' : ' disabled') + '>' +
         (abierta ? SOBRE : CANDADO) +
-        '<span class="tt">' +
-          (abierta ? "" : '<span class="k">se abre el</span>') +
-          '<span class="q">' + esc(c.cuando) + "</span></span>" +
+        '<span class="tt">' + (abierta ? "" : '<span class="k">se abre el</span>') +
+        '<span class="q">' + esc(c.cuando) + "</span></span>" +
         (abierta ? '<span class="flecha" aria-hidden="true"></span>' : etiqueta) +
       "</button>" +
-      (abierta
-        ? '<div class="cuerpo" id="' + id + '"><div><div class="texto">' + dentro + "</div></div></div>"
-        : "") +
+      (abierta ? '<div class="cuerpo" id="' + id + '"><div><div class="texto">' + dentro + "</div></div></div>" : "") +
       "</article>";
   }
   cont.innerHTML = html;
-
   cont.addEventListener("click", function(ev){
     var b = ev.target.closest ? ev.target.closest(".tapa") : null;
     if (!b || b.disabled) return;
     var art = b.parentNode;
     var ya = art.classList.contains("abierta");
-    art.classList.toggle("abierta", !ya);
-    b.setAttribute("aria-expanded", ya ? "false" : "true");
+    var todas = cont.querySelectorAll(".carta.abierta");
+    for (var k = 0; k < todas.length; k++){
+      todas[k].classList.remove("abierta");
+      var tb = todas[k].querySelector(".tapa"); if (tb) tb.setAttribute("aria-expanded","false");
+    }
+    if (!ya){
+      art.classList.add("abierta");
+      b.setAttribute("aria-expanded", "true");
+      setTimeout(function(){
+        try { art.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" }); } catch(e){}
+      }, 380);
+    }
   });
 
-  /* ---------- canciones ---------- */
-  var hc = "";
-  for (var k = 0; k < CANCIONES.length; k++){
-    var s = CANCIONES[k];
-    var ini = s.link ? '<a class="cancion" href="' + esc(s.link) + '" target="_blank" rel="noopener">'
-                     : '<div class="cancion">';
-    var fin = s.link ? '<span class="ir">escuchar</span></a>' : "</div>";
-    hc += ini + '<span class="disco" aria-hidden="true"></span>' +
-          "<span><b>" + esc(s.titulo) + "</b><span>" + esc(s.artista) + "</span></span>" + fin;
-  }
-  $("canciones").innerHTML = hc;
+  /* ---------- juego ---------- */
+  (function(){
+    $("preg").textContent = PREGUNTA;
+    $("pregSub").textContent = PREGUNTA_SUB;
+    var bSi = $("bSi"), bNo = $("bNo"), paso = 0, escala = 1;
+    bNo.addEventListener("click", function(){
+      if (paso < RESPUESTAS_NO.length){
+        bNo.textContent = RESPUESTAS_NO[paso];
+        paso++;
+        escala = Math.min(escala + 0.16, 2.3);
+        bSi.style.transform = "scale(" + escala + ")";
+        bSi.style.margin = (escala - 1) * 14 + "px " + (escala - 1) * 26 + "px";
+      } else {
+        bNo.classList.add("ido");
+        bNo.setAttribute("aria-hidden", "true");
+        $("pregSub").textContent = "Solo queda una opción.";
+      }
+    });
+    bSi.addEventListener("click", function(){
+      bSi.classList.add("ido"); bNo.classList.add("ido");
+      bSi.style.transform = ""; bSi.style.margin = "";
+      $("resT").textContent = RESPUESTA_SI;
+      $("resS").textContent = RESPUESTA_SI_2;
+      $("res").classList.add("ver");
+      $("pregSub").textContent = "";
+      if (!reduce) petalos();
+    });
+    function petalos(){
+      var box = $("juego"), W = box.clientWidth;
+      for (var i = 0; i < 26; i++){
+        var p = document.createElement("span");
+        p.className = "petalo";
+        p.style.left = Math.random() * W + "px";
+        p.style.animationDuration = (2.2 + Math.random() * 1.8) + "s";
+        p.style.animationDelay = (Math.random() * 0.6) + "s";
+        p.style.opacity = String(0.5 + Math.random() * 0.5);
+        p.style.transform = "scale(" + (0.7 + Math.random() * 0.8) + ")";
+        if (Math.random() < 0.35) p.style.background = "var(--oro)";
+        box.appendChild(p);
+        (function(el){ setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 4800); })(p);
+      }
+    }
+  })();
+
+  /* ---------- certificado ---------- */
+  (function(){
+    var C = CERTIFICADO;
+    $("cOjo").textContent = C.ojo;
+    $("cTitulo").textContent = C.titulo;
+    $("cSe").textContent = C.se;
+    $("cNombres").textContent = C.nombres;
+    $("cCuerpo").textContent = C.cuerpo;
+    $("cNivel").textContent = C.nivel;
+    $("cF1").textContent = C.firma1; $("cR1").textContent = C.rol1;
+    $("cF2").textContent = C.firma2; $("cR2").textContent = C.rol2;
+    $("cPie").textContent = C.pie;
+    var b = $("bRenovar"); b.textContent = C.botonRenovar;
+    b.addEventListener("click", function(){
+      var falta = destino - Date.now();
+      var dias = Math.max(0, Math.floor(falta / 86400000));
+      var av = $("cAviso");
+      av.innerHTML = esc(C.avisoRenovar) + (dias > 0 ? " <b>Faltan " + dias + " días.</b>" : "");
+      av.classList.add("ver");
+      b.disabled = true; b.style.opacity = ".55";
+    });
+  })();
+
+  /* ---------- canciones (se reproducen al tocar) ---------- */
+  (function(){
+    var cont = $("canciones"), hc = "";
+    for (var k = 0; k < CANCIONES.length; k++){
+      var s = CANCIONES[k];
+      hc += '<div class="pista" data-i="' + k + '">' +
+        '<button class="cancion" type="button" aria-expanded="false">' +
+          '<span class="disco" aria-hidden="true"></span>' +
+          "<span><b>" + esc(s.titulo) + "</b><span>" + esc(s.artista) + "</span></span>" +
+          '<span class="ir">' + (s.youtube ? "reproducir" : (s.link ? "escuchar" : "")) + "</span>" +
+        "</button>" +
+        '<div class="player"></div>' +
+      "</div>";
+    }
+    cont.innerHTML = hc;
+    cont.addEventListener("click", function(ev){
+      var b = ev.target.closest ? ev.target.closest(".cancion") : null;
+      if (!b) return;
+      var pista = b.parentNode, i = parseInt(pista.getAttribute("data-i"), 10);
+      var s = CANCIONES[i];
+      if (!s.youtube){ if (s.link) window.open(s.link, "_blank", "noopener"); return; }
+      var ya = pista.classList.contains("sonando");
+      var todas = cont.querySelectorAll(".pista.sonando");
+      for (var k = 0; k < todas.length; k++){
+        todas[k].classList.remove("sonando");
+        todas[k].querySelector(".player").innerHTML = "";
+        todas[k].querySelector(".cancion").setAttribute("aria-expanded","false");
+        todas[k].querySelector(".ir").textContent = "reproducir";
+      }
+      if (ya) return;
+      var pl = pista.querySelector(".player");
+      pl.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(s.youtube) +
+        '?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="' + esc(s.titulo) + '" ' +
+        'allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+      pista.classList.add("sonando");
+      b.setAttribute("aria-expanded","true");
+      b.querySelector(".ir").textContent = "sonando";
+    });
+  })();
 
 })();
 </script>
